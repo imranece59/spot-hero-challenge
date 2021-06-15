@@ -1,0 +1,26 @@
+FROM ubuntu:16.04
+
+LABEL image=spot-hero-challenge-image
+
+
+RUN echo "deb http://dl.bintray.com/sbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list
+
+RUN apt-get update && apt-get install -y \
+curl wget git openjdk-8-jdk openjdk-8-jre
+
+
+# Install Scala Build Tool sbt
+RUN apt-get install -y --force-yes sbt
+
+RUN wget --no-verbose https://archive.apache.org/dist/spark/spark-2.3.0/spark-2.3.0-bin-hadoop2.7.tgz
+RUN tar -xzf /spark-2.3.0-bin-hadoop2.7.tgz && \
+    mv spark-2.3.0-bin-hadoop2.7 spark 
+
+ENV PATH $PATH:/spark/bin
+ENV SPARK_MASTER local[*]
+
+# copying data folder to docker
+ADD data data
+
+COPY run.sh /
+CMD ./run.sh
