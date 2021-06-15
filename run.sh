@@ -9,7 +9,6 @@ test -z "$MAIN_CLASS" && ( echo "MAIN_CLASS is not set; exiting" ; exit 1 )
 
 echo "Cloning the repository: $SCM_URL"
 git clone "$SCM_URL"
-ls -ltr
 project_git="${SCM_URL##*/}"
 project_dir="${project_git%.git}"
 if test -n "$SCM_BRANCH"
